@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shapes</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="info">
+        <div class="info-item number-of-shapes">
+            <span class="info-title">Number of shapes: </span>
+            <span id="number-of-shapes"></span>
+        </div>
+        <div class="info-item occupied-area">
+        <span id="number-of-shapes" class="info-title">Occupied area: </span>
+            <span id="occupied-area"></span>
+            <span> px²</span>
+        </div>
+    </header>
+    <div id="app"></div>
+    <footer class="settings">
+        <div class="setting shapes-per-second">
+            <label for="shapes-per-second" class="setting-title">Shapes per second:</label>
+            <div class="number">
+                <button id="shapes-per-second-minus" class="number-minus" type="button" onclick="this.nextElementSibling.stepDown();">-</button>
+                <input type="number" min="0" max="10" id="shapes-per-second" value="2" readonly>
+                <button id="shapes-per-second-plus" class="number-plus" type="button" onclick="this.previousElementSibling.stepUp();">+</button>
+            </div>
+        </div>
+        <div class="setting gravity">
+            <label for="gravity" class="setting-title">Gravity:</label>
+            <div class="number">
+                <button id="gravity-minus" class="number-minus" type="button" onclick="this.nextElementSibling.stepDown();">-</button>
+                <input type="number" min="0" max="10" id="gravity" value="1" readonly>
+                <button id="gravity-plus" class="number-plus" type="button" onclick="this.previousElementSibling.stepUp();">+</button>
+            </div>
+        </div>
+
+    </footer>
+    <script src="lib/bundle.js"></script>
+</body>
+</html>
