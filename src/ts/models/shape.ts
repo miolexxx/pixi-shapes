@@ -2,6 +2,7 @@ import { Graphics } from 'pixi.js';
 import { getPolygonArea } from '../utils';
 
 export abstract class Shape {
+  private static nextId: number = 0;
   private _id: number;
   private _points: Array<number>;
   private _width: number;
@@ -10,7 +11,8 @@ export abstract class Shape {
   private _graphics: Graphics;
 
   constructor(x?: number, y?: number, width?: number, height?: number, points?: Array<number>) {
-    this._id = new Date().getTime() * Math.random() - Math.random();
+    this._id = Shape.nextId;
+    Shape.nextId++;
     this._graphics = new Graphics();
     this._width = width || 100;
     this._height = height || 100;
