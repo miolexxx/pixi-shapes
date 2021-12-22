@@ -24,7 +24,6 @@ export abstract class Shape {
   }
 
   protected render(points: Array<number>) {
-    this._points = points;
     const color = this._color;
 
     this._graphics.beginFill(color, 1).drawPolygon(points).endFill();
@@ -39,7 +38,6 @@ export abstract class Shape {
     this.y += deltaY;
   }
 
-  // TODO: add polygon area return
   public getArea(): number {
     return getPolygonArea(this._points);
   }

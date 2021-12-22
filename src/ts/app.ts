@@ -3,29 +3,42 @@ import { AppController } from './controllers/controller';
 import { AppModel } from './models/model';
 import { AppView } from './views/view';
 
-function initTicker(app: Application, controller: AppController, view: AppView) {
-  let renderCounter = 0;
-  app.ticker.add(() => {
-    const tickerInterval = app.ticker.elapsedMS;
-    const shouldGenerate = (renderCounter * tickerInterval) % 1000 < tickerInterval; // every second equals 'true'
+export class AppManager {
+  private app: Application;
+  private appContainer: HTMLElement | null;
+  private model: AppModel;
+  private view: AppView;
+  private controller: AppController;
 
-    controller.tick(view, view.containerWidth, view.containerHeight, shouldGenerate);
+  public constructor() {
+    this.appContainer = document.getElementById('app');
+    this.app = new Application({
+      width: this.appContainer?.clientWidth,
+      height: this.appContainer?.clientHeight,
+      antialias: true,
+    });
 
-    renderCounter++;
-  });
+    this.appContainer?.appendChild(this.app.view);
+    this.model = new AppModel();
+    this.view = new AppView(this.app);
+    this.controller = new AppController(this.view, this.model);
+
+    this.initTicker(this.app, this.controller, this.view);
+  }
+
+  private initTicker(app: Application, controller: AppController, view: AppView) {
+    let renderCounter = 0;
+    app.ticker.add(() => {
+      const tickerInterval = app.ticker.elapsedMS;
+      const shouldGenerate = (renderCounter * tickerInterval) % 1000 < tickerInterval; // every second equals 'true'
+
+      controller.tick(view, view.containerWidth, view.containerHeight, shouldGenerate);
+
+      renderCounter++;
+    });
+  }
 }
 
-const appContainer: HTMLElement | null = document.getElementById('app');
-const app = new Application({
-  width: appContainer?.clientWidth,
-  height: appContainer?.clientHeight,
-  antialias: true,
-});
-
-appContainer?.appendChild(app.view);
-
-const model = new AppModel();
-const view = new AppView(app);
-const controller = new AppController(view, model);
-
-initTicker(app, controller, view);
+window.onload = function () {
+  new AppManager();
+};
