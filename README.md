@@ -19,5 +19,5 @@ http-server
 ```
 
 ## Screenshots:
-![Screenshot 1](https://github.com/miolex/pixi-shapes/blob/master/screenshots/1.png)
-![Screenshot 2](https://github.com/miolex/pixi-shapes/blob/master/screenshots/2.png)
+![Screenshot 1](https://github.com/miolex/pixi-shapes/blob/master/images/1.png)
+![Screenshot 2](https://github.com/miolex/pixi-shapes/blob/master/images/2.png)
