@@ -115,7 +115,7 @@ export class Star extends Shape {
   }
 
   protected render(): void {
-    const numberOfPoints = random(3, 8);
+    const numberOfPoints = random(5, 8);
     const points: Array<number> = [];
     let step = (Math.PI * 2) / numberOfPoints;
     let halfStep = step / 2;
@@ -134,6 +134,9 @@ export class Star extends Shape {
       points.push(dx, dy);
     }
 
-    super.render(points);
+    if (this.points.length == 0) {
+      this.points = points;
+    }
+    super.render(this.points);
   }
 }

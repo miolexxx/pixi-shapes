@@ -38,6 +38,11 @@ export class AppModel {
     const shapeIndex = this._shapes.findIndex((s) => s.id === shape.id);
     callback(this._shapes[shapeIndex]);
     this._shapes.splice(shapeIndex, 1);
+    this._shapes
+      .filter((s) => s.constructor.name == shape.constructor.name)
+      .forEach((s) => {
+        s.changeColor();
+      });
   }
 
   public removeUnusedShapes(containerWidth: number, containerHeight: number, callback: (shape: Shape) => void) {

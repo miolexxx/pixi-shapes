@@ -26,9 +26,7 @@ export abstract class Shape {
   }
 
   protected render(points: Array<number>) {
-    const color = this._color;
-
-    this._graphics.beginFill(color, 1).drawPolygon(points).endFill();
+    this._graphics.beginFill(this.color, 1).drawPolygon(points).endFill();
   }
 
   public get graphics(): Graphics {
@@ -42,6 +40,12 @@ export abstract class Shape {
 
   public getArea(): number {
     return getPolygonArea(this._points);
+  }
+
+  public changeColor() {
+    this._color = this.generateColor();
+    this.graphics.clear();
+    this.render(this._points);
   }
 
   private generateColor(): number {
@@ -98,5 +102,13 @@ export abstract class Shape {
 
   public get color(): number {
     return this._color;
+  }
+
+  public set points(points: Array<number>) {
+    this._points = points;
+  }
+
+  public get points(): Array<number> {
+    return this._points;
   }
 }
