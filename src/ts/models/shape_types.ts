@@ -1,6 +1,5 @@
 import { Shape } from './shape';
 import { random } from '../utils';
-import { Graphics } from 'pixi.js';
 
 export class Circle extends Shape {
   constructor(x: number, y: number, width: number) {
@@ -10,7 +9,7 @@ export class Circle extends Shape {
   protected render(): void {
     this.graphics
       .beginFill(this.color)
-      .drawCircle(this.x, this.y, this.width / 2)
+      .drawCircle(this.initX, this.initY, this.width / 2)
       .endFill();
   }
 
@@ -27,7 +26,7 @@ export class Ellipse extends Shape {
   protected render() {
     this.graphics
       .beginFill(this.color)
-      .drawEllipse(this.x, this.y, this.width / 2, this.height / 2)
+      .drawEllipse(this.initX, this.initY, this.width / 2, this.height / 2)
       .endFill();
   }
 
@@ -42,7 +41,7 @@ export class Rectangle extends Shape {
   }
 
   protected render(): void {
-    this.graphics.beginFill(this.color).drawRect(this.x, this.y, this.width, this.height).endFill();
+    this.graphics.beginFill(this.color).drawRect(this.initX, this.initY, this.width, this.height).endFill();
   }
 
   public getArea(): number {
@@ -137,6 +136,6 @@ export class Star extends Shape {
     if (this.points.length == 0) {
       this.points = points;
     }
-    super.render(this.points);
+    super.render();
   }
 }

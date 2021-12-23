@@ -52,6 +52,7 @@ export class AppController {
   private onShapeClickHandler(model: AppModel, view: AppView, shape: Shape): () => void {
     return () => {
       model.removeShape(shape, view.removeShape);
+      model.changeColors(shape);
       view.updateInfo(this.model.numberOfShapes, this.model.occupiedArea);
     };
   }
@@ -77,11 +78,13 @@ export class AppController {
 
   private _generateRandomShapes(view: AppView, model: AppModel) {
     for (let i = 0; i < model.shapesPerSecond; i++) {
+      const width = random(SHAPE_SIZE_LIMIT.WIDTH.MIN, SHAPE_SIZE_LIMIT.WIDTH.MAX);
+      const height = random(SHAPE_SIZE_LIMIT.WIDTH.MIN, SHAPE_SIZE_LIMIT.WIDTH.MAX);
       const shape = model.addShape(
         random(SHAPE_SIZE_LIMIT.WIDTH.MIN / 2, view.containerWidth / 2 - SHAPE_SIZE_LIMIT.WIDTH.MIN / 2),
-        random(SHAPE_SIZE_LIMIT.HEIGHT.MIN / 2, view.containerHeight / 2 - SHAPE_SIZE_LIMIT.HEIGHT.MIN / 2),
-        random(SHAPE_SIZE_LIMIT.WIDTH.MIN, SHAPE_SIZE_LIMIT.WIDTH.MAX),
-        random(SHAPE_SIZE_LIMIT.HEIGHT.MIN, SHAPE_SIZE_LIMIT.HEIGHT.MAX)
+        0 - height / 2,
+        width,
+        height
       );
       this.addShape(shape, view);
     }

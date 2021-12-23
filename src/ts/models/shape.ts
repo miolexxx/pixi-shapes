@@ -10,6 +10,9 @@ export abstract class Shape {
   private _color: number;
   private _graphics: Graphics;
 
+  private _initX: number;
+  private _initY: number;
+
   constructor(x?: number, y?: number, width?: number, height?: number, points?: Array<number>) {
     this._id = Shape.nextId;
     Shape.nextId++;
@@ -21,12 +24,14 @@ export abstract class Shape {
 
     this.x = x || 100;
     this.y = y || 100;
+    this._initX = this.x;
+    this._initY = this.y;
 
-    this.render(this._points);
+    this.render();
   }
 
-  protected render(points: Array<number>) {
-    this._graphics.beginFill(this.color, 1).drawPolygon(points).endFill();
+  protected render() {
+    this._graphics.beginFill(this.color, 1).drawPolygon(this._points).endFill();
   }
 
   public get graphics(): Graphics {
@@ -45,7 +50,7 @@ export abstract class Shape {
   public changeColor() {
     this._color = this.generateColor();
     this.graphics.clear();
-    this.render(this._points);
+    this.render();
   }
 
   private generateColor(): number {
@@ -57,9 +62,6 @@ export abstract class Shape {
   }
 
   public set x(value) {
-    if (value < 0) {
-      return;
-    }
     this._graphics.position.x = value;
   }
 
@@ -68,9 +70,6 @@ export abstract class Shape {
   }
 
   public set y(value) {
-    if (value < 0) {
-      return;
-    }
     this._graphics.position.y = value;
   }
 
@@ -102,6 +101,14 @@ export abstract class Shape {
 
   public get color(): number {
     return this._color;
+  }
+
+  public get initX(): number {
+    return this._initX;
+  }
+
+  public get initY(): number {
+    return this._initY;
   }
 
   public set points(points: Array<number>) {

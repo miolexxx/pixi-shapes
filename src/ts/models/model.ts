@@ -38,6 +38,9 @@ export class AppModel {
     const shapeIndex = this._shapes.findIndex((s) => s.id === shape.id);
     callback(this._shapes[shapeIndex]);
     this._shapes.splice(shapeIndex, 1);
+  }
+
+  public changeColors(shape: Shape) {
     this._shapes
       .filter((s) => s.constructor.name == shape.constructor.name)
       .forEach((s) => {
