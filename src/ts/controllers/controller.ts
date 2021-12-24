@@ -7,6 +7,12 @@ import { SHAPE_SIZE_LIMIT } from '../config';
 export class AppController {
   private view: AppView;
   private model: AppModel;
+
+  /**
+   * Returns new AppController instance
+   * @param view AppView instance
+   * @param model AppModel instance
+   */
   constructor(view: AppView, model: AppModel) {
     this.view = view;
     this.model = model;
@@ -14,56 +20,77 @@ export class AppController {
     this.addHandlers();
   }
 
-  // on app tick
-  public tick(view: AppView, containerWidth: number, containerHeight: number, shouldGenerate: boolean) {
+  /**
+   *
+   * @param view
+   * @param containerHeight
+   * @param shouldGenerate
+   */
+  public tick(view: AppView, containerHeight: number, shouldGenerate: boolean) {
+    // every second generates shapes and remove unused shapes
     if (shouldGenerate) {
       this._generateRandomShapes(this.view, this.model);
-      this.model.removeUnusedShapes(containerWidth, containerHeight, view.removeShape);
+      this.model.removeUnusedShapes(containerHeight, view.removeShape);
     }
+    // simulates gravity
     this.model.moveShapes();
-
+    // updates displayed info
     this.view.updateInfo(this.model.numberOfShapes, this.model.occupiedArea);
   }
 
-  // register handlers
+  /**
+   * Add handlers to components of view
+   */
   private addHandlers() {
+    // When shape pes second changed
     this.view.addShapesPerSecondHandler(this.onShapesPerSecondUpdateHandler(this.model));
-
+    // When gravity changed
     this.view.addGravityHandler(this.onGravityUpdateHandler(this.model));
-
+    // When click on app background
     this.view.addAppContainerHandler(this.addShapeOnClick(this.view));
   }
 
-  // on shapes per second update
+  /**
+   * Updates shapesPerSecond value at model
+   */
   private onShapesPerSecondUpdateHandler(model: AppModel): (sps: number) => void {
     return (sps: number) => {
       model.shapesPerSecond = sps;
     };
   }
 
-  // on gravity update
+  /**
+   * Updates gravity value at model
+   */
   private onGravityUpdateHandler(model: AppModel): (g: number) => void {
     return (gravity: number) => {
       model.gravity = gravity;
     };
   }
 
-  // on shape click
+  /**
+   * On Shape click handler
+   */
   private onShapeClickHandler(model: AppModel, view: AppView, shape: Shape): () => void {
     return () => {
-      model.removeShape(shape, view.removeShape);
-      model.changeColors(shape);
-      view.updateInfo(this.model.numberOfShapes, this.model.occupiedArea);
+      model.removeShape(shape, view.removeShape); // remove clicked shape
+      model.changeColors(shape); // change color of all Shapes the same type
+      view.updateInfo(this.model.numberOfShapes, this.model.occupiedArea); // update displayed info
     };
   }
 
+  /**
+   * Add Shape to the view
+   */
   private addShape(shape: Shape, view: AppView) {
-    shape.graphics.on('click', this.onShapeClickHandler(this.model, this.view, shape));
-    view.addShape(shape);
-    view.updateInfo(this.model.numberOfShapes, this.model.occupiedArea);
+    shape.graphics.on('click', this.onShapeClickHandler(this.model, this.view, shape)); // add on click handler
+    view.addShape(shape); // add Shape to the view
+    view.updateInfo(this.model.numberOfShapes, this.model.occupiedArea); // update displayed info
   }
 
-  // on background click
+  /**
+   * Adds Shape to pointer position
+   */
   private addShapeOnClick(view: AppView) {
     return (mousePoint: { x: number; y: number }) => {
       const shape = this.model.addShape(
@@ -76,16 +103,15 @@ export class AppController {
     };
   }
 
+  /**
+   * Adds few Shapes
+   */
   private _generateRandomShapes(view: AppView, model: AppModel) {
     for (let i = 0; i < model.shapesPerSecond; i++) {
+      const x = random(SHAPE_SIZE_LIMIT.WIDTH.MIN / 2, view.containerWidth / 2 - SHAPE_SIZE_LIMIT.WIDTH.MIN / 2);
       const width = random(SHAPE_SIZE_LIMIT.WIDTH.MIN, SHAPE_SIZE_LIMIT.WIDTH.MAX);
       const height = random(SHAPE_SIZE_LIMIT.WIDTH.MIN, SHAPE_SIZE_LIMIT.WIDTH.MAX);
-      const shape = model.addShape(
-        random(SHAPE_SIZE_LIMIT.WIDTH.MIN / 2, view.containerWidth / 2 - SHAPE_SIZE_LIMIT.WIDTH.MIN / 2),
-        0 - height / 2,
-        width,
-        height
-      );
+      const shape = model.addShape(x, 0 - height / 2, width, height);
       this.addShape(shape, view);
     }
   }
