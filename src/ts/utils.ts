@@ -1,6 +1,8 @@
-export const random = (min: number, max: number) => Math.floor(Math.random() * (max - min)) + min;
+export const random = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min)) + min;
+};
 
-export const getPolygonArea = (points: Array<number>) => {
+export const getPolygonArea = (points: Array<number>): number => {
   let area = 0;
 
   for (let i = 0; i < points.length - 2; i += 2) {

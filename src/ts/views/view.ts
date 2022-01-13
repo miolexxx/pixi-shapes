@@ -113,7 +113,8 @@ export class AppView {
    * Adds Shape to app stage
    * @param shape Shape to add
    */
-  public addShape(shape: Shape) {
+  public addShape(shape: Shape): void {
+    shape.graphics.visible = true;
     this._app.stage.addChild(shape.graphics);
   }
 
@@ -121,9 +122,9 @@ export class AppView {
    * Removes Shape from app stage
    * @param shape Shape to remove
    */
-  public removeShape(shape: Shape) {
+  public removeShape(shape: Shape): void {
     this?._app.stage.removeChild(shape.graphics);
-    shape.graphics.destroy(true);
+    shape.graphics.visible = false;
   }
 
   /**

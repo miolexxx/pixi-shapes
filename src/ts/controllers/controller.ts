@@ -26,7 +26,7 @@ export class AppController {
    * @param containerHeight
    * @param shouldGenerate
    */
-  public tick(view: AppView, containerHeight: number, shouldGenerate: boolean) {
+  public tick(view: AppView, containerHeight: number, shouldGenerate: boolean): void {
     // every second generates shapes and remove unused shapes
     if (shouldGenerate) {
       this._generateRandomShapes(this.view, this.model);
@@ -41,7 +41,7 @@ export class AppController {
   /**
    * Add handlers to components of view
    */
-  private addHandlers() {
+  private addHandlers(): void {
     // When shape pes second changed
     this.view.addShapesPerSecondHandler(this.onShapesPerSecondUpdateHandler(this.model));
     // When gravity changed
@@ -82,7 +82,7 @@ export class AppController {
   /**
    * Add Shape to the view
    */
-  private addShape(shape: Shape, view: AppView) {
+  private addShape(shape: Shape, view: AppView): void {
     shape.graphics.on('click', this.onShapeClickHandler(this.model, this.view, shape)); // add on click handler
     view.addShape(shape); // add Shape to the view
     view.updateInfo(this.model.numberOfShapes, this.model.occupiedArea); // update displayed info
@@ -91,8 +91,8 @@ export class AppController {
   /**
    * Adds Shape to pointer position
    */
-  private addShapeOnClick(view: AppView) {
-    return (mousePoint: { x: number; y: number }) => {
+  private addShapeOnClick(view: AppView): (mousePoint: { x: number; y: number;}) => void {
+    return (mousePoint: { x: number; y: number }): void => {
       const shape = this.model.addShape(
         mousePoint.x,
         mousePoint.y,
@@ -106,7 +106,7 @@ export class AppController {
   /**
    * Adds few Shapes
    */
-  private _generateRandomShapes(view: AppView, model: AppModel) {
+  private _generateRandomShapes(view: AppView, model: AppModel): void {
     for (let i = 0; i < model.shapesPerSecond; i++) {
       const x = random(SHAPE_SIZE_LIMIT.WIDTH.MIN / 2, view.containerWidth / 2 - SHAPE_SIZE_LIMIT.WIDTH.MIN / 2);
       const width = random(SHAPE_SIZE_LIMIT.WIDTH.MIN, SHAPE_SIZE_LIMIT.WIDTH.MAX);

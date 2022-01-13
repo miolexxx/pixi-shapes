@@ -43,7 +43,7 @@ export class Ellipse extends Shape {
     super(x, y, width, height);
   }
 
-  protected render() {
+  protected render(): void {
     this.graphics
       .beginFill(this.color)
       .drawEllipse(this.initX, this.initY, this.width / 2, this.height / 2)

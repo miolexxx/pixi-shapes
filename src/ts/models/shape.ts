@@ -46,7 +46,7 @@ export abstract class Shape {
   /**
    * Draws shape on this _graphics
    */
-  protected render() {
+  protected render(): void {
     this._graphics.beginFill(this.color, 1).drawPolygon(this._points).endFill();
   }
 
@@ -62,7 +62,7 @@ export abstract class Shape {
    * @param deltaX Value who will be added to current ```x``` position
    * @param deltaY Value who will be added to current ```y``` position
    */
-  public move(deltaX: number, deltaY: number) {
+  public move(deltaX: number, deltaY: number): void {
     this.x += deltaX;
     this.y += deltaY;
   }
@@ -78,10 +78,8 @@ export abstract class Shape {
   /**
    * Changes color of Shape to random color
    */
-  public changeColor() {
-    this._color = this.generateColor();
-    this.graphics.clear();
-    this.render();
+  public changeColor(): void {
+    this._graphics.tint = this.generateColor();
   }
 
   /**
@@ -95,7 +93,7 @@ export abstract class Shape {
   /**
    * Returns current x position
    */
-  public get x() {
+  public get x(): number {
     return this._graphics.position.x;
   }
 
@@ -109,7 +107,7 @@ export abstract class Shape {
   /**
    * Returns current y position
    */
-  public get y() {
+  public get y(): number {
     return this._graphics.position.y;
   }
 

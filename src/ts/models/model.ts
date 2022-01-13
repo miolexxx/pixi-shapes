@@ -20,6 +20,7 @@ export class AppModel {
   private _shapes: Array<Shape>;
   private _gravity: number;
   private _shapesPerSecond: number;
+  private _unusedShapes: Array<Shape> = [];
 
   /**
    * Returns new AppModel instance
@@ -39,12 +40,24 @@ export class AppModel {
    * @returns Random Shape instance
    */
   public addShape(x: number, y: number, width: number, height: number): Shape {
+    // if shape exists in _unusedShapes array return this shape
+    if (this._unusedShapes.length != 0) {
+      const s: Shape = this._unusedShapes.shift()!;
+      s.graphics.x = x;
+      s.graphics.y = y;
+      s.graphics.setTransform(x, y, random(0.5, 2), random(0.5, 2), random(0, 359));
+      this._shapes.push(s);
+      
+      return s;
+    }
+
+    // if shape not exists in _unusedShapes array create new Shape
     const ShapeClass = shapeClasses[random(0, shapeClasses.length)]; // choose random Shape class
     const newShape = new ShapeClass(x, y, width, height);
     newShape.graphics.interactive = true;
     newShape.graphics.buttonMode = true;
     this._shapes.push(newShape);
-
+    
     return newShape;
   }
 
@@ -53,17 +66,18 @@ export class AppModel {
    * @param shape Shape to remove
    * @param callback Callback function
    */
-  public removeShape(shape: Shape, callback: (shape: Shape) => void) {
+  public removeShape(shape: Shape, callback: (shape: Shape) => void): void {
     const shapeIndex = this._shapes.findIndex((s) => s.id === shape.id);
     callback(this._shapes[shapeIndex]);
-    this._shapes.splice(shapeIndex, 1);
+    this._unusedShapes.push(this._shapes[shapeIndex]);
+    this._shapes.splice(shapeIndex, 1);  
   }
 
   /**
    * Changes Shapes colors of one type
    * @param shape Shape which type will change color
    */
-  public changeColors(shape: Shape) {
+  public changeColors(shape: Shape): void {
     this._shapes
       .filter((s) => s.constructor.name == shape.constructor.name)
       .forEach((s) => {
@@ -77,7 +91,7 @@ export class AppModel {
    * @param containerHeight Container height
    * @param callback Callback function
    */
-  public removeUnusedShapes(containerHeight: number, callback: (shape: Shape) => void) {
+  public removeUnusedShapes(containerHeight: number, callback: (shape: Shape) => void): void {
     this._shapes
       .filter((shape) => shape.y - shape.height >= containerHeight)
       .forEach((shape) => {
@@ -88,7 +102,7 @@ export class AppModel {
   /**
    * Moves all Shapes to simulate gravity
    */
-  public moveShapes() {
+  public moveShapes(): void {
     this._shapes.forEach((shape) => {
       shape.move(0, this._gravity);
     });
@@ -97,14 +111,14 @@ export class AppModel {
   /**
    * Returns sum of Shapes areas
    */
-  public get occupiedArea() {
+  public get occupiedArea(): number {
     return Math.ceil(this._shapes.reduce((prev, curr) => prev + curr.getArea(), 0));
   }
 
   /**
    * Returns gravity valuew
    */
-  public get gravity() {
+  public get gravity(): number {
     return this._gravity;
   }
 
@@ -122,7 +136,7 @@ export class AppModel {
   /**
    * Returns shapes per second value
    */
-  public get shapesPerSecond() {
+  public get shapesPerSecond(): number {
     return this._shapesPerSecond;
   }
 
@@ -140,7 +154,7 @@ export class AppModel {
   /**
    * Returns number of all Shapes in _shapes array
    */
-  public get numberOfShapes() {
+  public get numberOfShapes(): number {
     return this._shapes.length;
   }
 }

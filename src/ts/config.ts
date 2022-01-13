@@ -1,10 +1,10 @@
 export const SHAPE_SIZE_LIMIT = {
   HEIGHT: {
-    MIN: 50,
-    MAX: 150,
+    MIN: 100,
+    MAX: 200,
   },
   WIDTH: {
-    MIN: 50,
-    MAX: 150,
+    MIN: 100,
+    MAX: 200,
   },
 };

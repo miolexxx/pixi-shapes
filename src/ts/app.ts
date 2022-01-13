@@ -37,7 +37,7 @@ export class AppManager {
    * @param controller AppController instance
    * @param view AppView instance
    */
-  private initTicker(app: Application, controller: AppController, view: AppView) {
+  private initTicker(app: Application, controller: AppController, view: AppView): void {
     let renderCounter = 0;
     app.ticker.add(() => {
       const tickerInterval = app.ticker.elapsedMS; // difference between frames
