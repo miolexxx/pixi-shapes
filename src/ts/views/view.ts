@@ -1,5 +1,5 @@
-import { Application, Sprite, Texture } from 'pixi.js';
-import { Shape } from '../models/shape';
+import { Application, Sprite, Texture } from "pixi.js";
+import { Shape } from "../models/shape";
 
 export class AppView {
   private _app: Application;
@@ -21,14 +21,18 @@ export class AppView {
     this._app = app;
     this._app.stage.interactive = true;
 
-    this._numberOfShapes = document.getElementById('number-of-shapes');
-    this._occupiedArea = document.getElementById('occupied-area');
-    this._shapesPerSecond = document.getElementById('shapes-per-second');
-    this._shapesPerSecondPlus = document.getElementById('shapes-per-second-plus');
-    this._shapesPerSecondMinus = document.getElementById('shapes-per-second-minus');
-    this._gravity = document.getElementById('gravity');
-    this._gravityPlus = document.getElementById('gravity-plus');
-    this._gravityMinus = document.getElementById('gravity-minus');
+    this._numberOfShapes = document.getElementById("number-of-shapes");
+    this._occupiedArea = document.getElementById("occupied-area");
+    this._shapesPerSecond = document.getElementById("shapes-per-second");
+    this._shapesPerSecondPlus = document.getElementById(
+      "shapes-per-second-plus"
+    );
+    this._shapesPerSecondMinus = document.getElementById(
+      "shapes-per-second-minus"
+    );
+    this._gravity = document.getElementById("gravity");
+    this._gravityPlus = document.getElementById("gravity-plus");
+    this._gravityMinus = document.getElementById("gravity-minus");
 
     this.addBackground();
   }
@@ -50,18 +54,28 @@ export class AppView {
    * @param handler Click handler function
    */
   public addShapesPerSecondHandler(handler: (shapesPerSecond: number) => void) {
-    this._shapesPerSecondPlus?.addEventListener('click', () => {
-      const element: HTMLInputElement = this._shapesPerSecond as HTMLInputElement;
+    this._shapesPerSecondPlus?.addEventListener("click", () => {
+      const element: HTMLInputElement = this
+        ._shapesPerSecond as HTMLInputElement;
 
       // if value is NaN it convey 0
-      handler(isNaN(Number.parseInt(element.value)) ? 0 : Number.parseInt(element.value));
+      handler(
+        isNaN(Number.parseInt(element.value))
+          ? 0
+          : Number.parseInt(element.value)
+      );
     });
 
-    this._shapesPerSecondMinus?.addEventListener('click', () => {
-      const element: HTMLInputElement = this._shapesPerSecond as HTMLInputElement;
+    this._shapesPerSecondMinus?.addEventListener("click", () => {
+      const element: HTMLInputElement = this
+        ._shapesPerSecond as HTMLInputElement;
 
       // if value is NaN it convey 0
-      handler(isNaN(Number.parseInt(element.value)) ? 0 : Number.parseInt(element.value));
+      handler(
+        isNaN(Number.parseInt(element.value))
+          ? 0
+          : Number.parseInt(element.value)
+      );
     });
   }
 
@@ -70,18 +84,26 @@ export class AppView {
    * @param handler Click handler function
    */
   public addGravityHandler(handler: (gravity: number) => void) {
-    this._gravityPlus?.addEventListener('click', () => {
+    this._gravityPlus?.addEventListener("click", () => {
       const element: HTMLInputElement = this._gravity as HTMLInputElement;
 
       // if value is NaN it convey 0
-      handler(isNaN(Number.parseInt(element.value)) ? 0 : Number.parseInt(element.value));
+      handler(
+        isNaN(Number.parseInt(element.value))
+          ? 0
+          : Number.parseInt(element.value)
+      );
     });
 
-    this._gravityMinus?.addEventListener('click', () => {
+    this._gravityMinus?.addEventListener("click", () => {
       const element: HTMLInputElement = this._gravity as HTMLInputElement;
 
       // if value is NaN it convey 0
-      handler(isNaN(Number.parseInt(element.value)) ? 0 : Number.parseInt(element.value));
+      handler(
+        isNaN(Number.parseInt(element.value))
+          ? 0
+          : Number.parseInt(element.value)
+      );
     });
   }
 
@@ -89,8 +111,10 @@ export class AppView {
    * Adds handler to click on app background
    * @param handler Click handler function
    */
-  public addAppContainerHandler(handler: (mousePoint: { x: number; y: number }) => void) {
-    this._background.on('click', (e) => {
+  public addAppContainerHandler(
+    handler: (mousePoint: { x: number; y: number }) => void
+  ) {
+    this._background.on("click", (e) => {
       const mousePoint: { x: number; y: number } = {
         x: e.data.global.x / 2,
         y: e.data.global.y / 2,

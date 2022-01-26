@@ -1,8 +1,8 @@
-import { AppView } from '../views/view';
-import { AppModel } from '../models/model';
-import { random } from '../utils';
-import { Shape } from '../models/shape';
-import { SHAPE_SIZE_LIMIT } from '../config';
+import { AppView } from "../views/view";
+import { AppModel } from "../models/model";
+import { random } from "../utils";
+import { Shape } from "../models/shape";
+import { SHAPE_SIZE_LIMIT } from "../config";
 
 export class AppController {
   private view: AppView;
@@ -26,7 +26,11 @@ export class AppController {
    * @param containerHeight
    * @param shouldGenerate
    */
-  public tick(view: AppView, containerHeight: number, shouldGenerate: boolean): void {
+  public tick(
+    view: AppView,
+    containerHeight: number,
+    shouldGenerate: boolean
+  ): void {
     // every second generates shapes and remove unused shapes
     if (shouldGenerate) {
       this._generateRandomShapes(this.view, this.model);
@@ -43,7 +47,9 @@ export class AppController {
    */
   private addHandlers(): void {
     // When shape pes second changed
-    this.view.addShapesPerSecondHandler(this.onShapesPerSecondUpdateHandler(this.model));
+    this.view.addShapesPerSecondHandler(
+      this.onShapesPerSecondUpdateHandler(this.model)
+    );
     // When gravity changed
     this.view.addGravityHandler(this.onGravityUpdateHandler(this.model));
     // When click on app background
@@ -53,7 +59,9 @@ export class AppController {
   /**
    * Updates shapesPerSecond value at model
    */
-  private onShapesPerSecondUpdateHandler(model: AppModel): (sps: number) => void {
+  private onShapesPerSecondUpdateHandler(
+    model: AppModel
+  ): (sps: number) => void {
     return (sps: number) => {
       model.shapesPerSecond = sps;
     };
@@ -71,7 +79,11 @@ export class AppController {
   /**
    * On Shape click handler
    */
-  private onShapeClickHandler(model: AppModel, view: AppView, shape: Shape): () => void {
+  private onShapeClickHandler(
+    model: AppModel,
+    view: AppView,
+    shape: Shape
+  ): () => void {
     return () => {
       model.removeShape(shape, view.removeShape); // remove clicked shape
       model.changeColors(shape); // change color of all Shapes the same type
@@ -83,7 +95,10 @@ export class AppController {
    * Add Shape to the view
    */
   private addShape(shape: Shape, view: AppView): void {
-    shape.graphics.on('click', this.onShapeClickHandler(this.model, this.view, shape)); // add on click handler
+    shape.graphics.on(
+      "click",
+      this.onShapeClickHandler(this.model, this.view, shape)
+    ); // add on click handler
     view.addShape(shape); // add Shape to the view
     view.updateInfo(this.model.numberOfShapes, this.model.occupiedArea); // update displayed info
   }
@@ -91,7 +106,9 @@ export class AppController {
   /**
    * Adds Shape to pointer position
    */
-  private addShapeOnClick(view: AppView): (mousePoint: { x: number; y: number;}) => void {
+  private addShapeOnClick(
+    view: AppView
+  ): (mousePoint: { x: number; y: number }) => void {
     return (mousePoint: { x: number; y: number }): void => {
       const shape = this.model.addShape(
         mousePoint.x,
@@ -108,9 +125,18 @@ export class AppController {
    */
   private _generateRandomShapes(view: AppView, model: AppModel): void {
     for (let i = 0; i < model.shapesPerSecond; i++) {
-      const x = random(SHAPE_SIZE_LIMIT.WIDTH.MIN / 2, view.containerWidth / 2 - SHAPE_SIZE_LIMIT.WIDTH.MIN / 2);
-      const width = random(SHAPE_SIZE_LIMIT.WIDTH.MIN, SHAPE_SIZE_LIMIT.WIDTH.MAX);
-      const height = random(SHAPE_SIZE_LIMIT.WIDTH.MIN, SHAPE_SIZE_LIMIT.WIDTH.MAX);
+      const x = random(
+        SHAPE_SIZE_LIMIT.WIDTH.MIN / 2,
+        view.containerWidth / 2 - SHAPE_SIZE_LIMIT.WIDTH.MIN / 2
+      );
+      const width = random(
+        SHAPE_SIZE_LIMIT.WIDTH.MIN,
+        SHAPE_SIZE_LIMIT.WIDTH.MAX
+      );
+      const height = random(
+        SHAPE_SIZE_LIMIT.WIDTH.MIN,
+        SHAPE_SIZE_LIMIT.WIDTH.MAX
+      );
       const shape = model.addShape(x, 0 - height / 2, width, height);
       this.addShape(shape, view);
     }

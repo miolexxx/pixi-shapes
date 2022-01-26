@@ -1,6 +1,6 @@
-import { random } from '../utils';
-import { Shape } from './shape';
-import * as SHAPES from './shape_types';
+import { random } from "../utils";
+import { Shape } from "./shape";
+import * as SHAPES from "./shape_types";
 
 /**
  * Array of Shapes classes
@@ -20,7 +20,6 @@ export class AppModel {
   private _shapes: Array<Shape>;
   private _gravity: number;
   private _shapesPerSecond: number;
-  private _unusedShapes: Array<Shape> = [];
 
   /**
    * Returns new AppModel instance
@@ -40,24 +39,13 @@ export class AppModel {
    * @returns Random Shape instance
    */
   public addShape(x: number, y: number, width: number, height: number): Shape {
-    // if shape exists in _unusedShapes array return this shape
-    if (this._unusedShapes.length != 0) {
-      const s: Shape = this._unusedShapes.shift()!;
-      s.graphics.x = x;
-      s.graphics.y = y;
-      s.graphics.setTransform(x, y, random(0.5, 2), random(0.5, 2), random(0, 359));
-      this._shapes.push(s);
-      
-      return s;
-    }
-
     // if shape not exists in _unusedShapes array create new Shape
     const ShapeClass = shapeClasses[random(0, shapeClasses.length)]; // choose random Shape class
     const newShape = new ShapeClass(x, y, width, height);
     newShape.graphics.interactive = true;
     newShape.graphics.buttonMode = true;
     this._shapes.push(newShape);
-    
+
     return newShape;
   }
 
@@ -69,8 +57,7 @@ export class AppModel {
   public removeShape(shape: Shape, callback: (shape: Shape) => void): void {
     const shapeIndex = this._shapes.findIndex((s) => s.id === shape.id);
     callback(this._shapes[shapeIndex]);
-    this._unusedShapes.push(this._shapes[shapeIndex]);
-    this._shapes.splice(shapeIndex, 1);  
+    this._shapes.splice(shapeIndex, 1);
   }
 
   /**
@@ -91,7 +78,10 @@ export class AppModel {
    * @param containerHeight Container height
    * @param callback Callback function
    */
-  public removeUnusedShapes(containerHeight: number, callback: (shape: Shape) => void): void {
+  public removeUnusedShapes(
+    containerHeight: number,
+    callback: (shape: Shape) => void
+  ): void {
     this._shapes
       .filter((shape) => shape.y - shape.height >= containerHeight)
       .forEach((shape) => {
@@ -112,7 +102,9 @@ export class AppModel {
    * Returns sum of Shapes areas
    */
   public get occupiedArea(): number {
-    return Math.ceil(this._shapes.reduce((prev, curr) => prev + curr.getArea(), 0));
+    return Math.ceil(
+      this._shapes.reduce((prev, curr) => prev + curr.getArea(), 0)
+    );
   }
 
   /**
